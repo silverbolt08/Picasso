@@ -1,0 +1,21 @@
+/* ─── Font Loading ────────────────────────────────────────────────────────── */
+/* TODO: Dynamic font loading — when LLM generates tokens with arbitrary fonts,
+   a font loader utility should inject the appropriate @import or <link> tag.
+   For now, we load the two built-in theme fonts statically. */
+@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500&family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap');
+@import "tailwindcss";
+
+/* ─── Reset ───────────────────────────────────────────────────────────────── */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  /* Background and font-family are now set via ThemeTokens on the root <div>.
+     These serve as safe base fallbacks only. */
+  background-color: #0d0f12;
+  font-family: 'DM Sans', sans-serif;
+}
