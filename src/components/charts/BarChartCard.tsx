@@ -41,8 +41,18 @@ export default function BarChartCard({ config, hero = false }: Props) {
   const barRadius = theme.chartStyle.barRadius ?? 8;
   const animationDuration = theme.chartStyle.animationDuration ?? 1000;
 
+  // Theme Morphing extensions
+  const glowIntensity = theme.chartStyle.glowIntensity ?? 0;
+  const axisDensity = theme.chartStyle.axisDensity ?? 'standard';
+  const labelStyle = theme.chartStyle.labelStyle ?? 'minimal';
+
   // Gridline stroke dash array based on DNA
   const gridStrokeDash = gridlineStyle === 'dashed' ? '5 5' : gridlineStyle === 'dotted' ? '2 4' : undefined;
+
+  // Axis tick interval based on axisDensity
+  const tickInterval = axisDensity === 'minimal' ? Math.max(1, Math.floor(chartData.length / 3)) 
+    : axisDensity === 'dense' ? 0 
+    : undefined;
 
   const renderTooltipContent = ({ active, payload }: { active?: boolean; payload?: TooltipPayload[] }) => {
     if (!active || !payload?.length) return null;
@@ -61,6 +71,9 @@ export default function BarChartCard({ config, hero = false }: Props) {
     );
   };
 
+  // Glow filter ID
+  const glowFilterId = `bar-glow-${config.title.replace(/\s+/g, '-').toLowerCase()}`;
+
   return (
     <div style={{ height, width: '100%' }}>
       <ResponsiveContainer width="100%" height="100%">
@@ -70,6 +83,19 @@ export default function BarChartCard({ config, hero = false }: Props) {
           margin={{ top: 15, right: 15, left: -20, bottom: 5 }}
         >
           <defs>
+            {/* Glow filter for neon/cyberpunk themes */}
+            {glowIntensity > 0 && (
+              <filter id={glowFilterId} x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur stdDeviation={3 * glowIntensity} result="blur" />
+                <feComponentTransfer in="blur" result="boost">
+                  <feFuncA type="linear" slope={2 * glowIntensity} />
+                </feComponentTransfer>
+                <feMerge>
+                  <feMergeNode in="boost" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+            )}
             {chartData.map((_, i) => {
               const color = theme.colors.chartPalette[i % theme.colors.chartPalette.length];
               const gradId = `bar-grad-${config.title.replace(/\s+/g, '-').toLowerCase()}-${i}`;
@@ -83,7 +109,7 @@ export default function BarChartCard({ config, hero = false }: Props) {
           </defs>
           {gridlineStyle !== 'none' && (
             <CartesianGrid 
-              vertical={false} 
+              vertical={axisDensity === 'dense'} 
               stroke={theme.colors.grid} 
               strokeDasharray={gridStrokeDash}
               strokeOpacity={theme.chartStyle.gridOpacity} 
@@ -92,8 +118,10 @@ export default function BarChartCard({ config, hero = false }: Props) {
           <XAxis
             dataKey="label"
             axisLine={axisVisible ? { stroke: theme.colors.grid } : false}
-            tickLine={false}
+            tickLine={axisVisible && axisDensity === 'dense'}
             dy={10}
+            interval={tickInterval}
+            hide={labelStyle === 'hidden'}
             tick={{
               fill: theme.colors.textSecondary,
               fontSize: 10,
@@ -103,9 +131,10 @@ export default function BarChartCard({ config, hero = false }: Props) {
           />
           <YAxis
             axisLine={axisVisible ? { stroke: theme.colors.grid } : false}
-            tickLine={false}
+            tickLine={axisVisible && axisDensity === 'dense'}
             tickFormatter={formatNumber}
             dx={-8}
+            hide={labelStyle === 'hidden'}
             tick={{
               fill: theme.colors.textSecondary,
               fontSize: 10,
@@ -125,6 +154,7 @@ export default function BarChartCard({ config, hero = false }: Props) {
             isAnimationActive={animationDuration > 0}
             animationDuration={animationDuration}
             animationEasing="ease-out"
+            filter={glowIntensity > 0 ? `url(#${glowFilterId})` : undefined}
           >
             {chartData.map((_, i) => {
               const gradId = `bar-grad-${config.title.replace(/\s+/g, '-').toLowerCase()}-${i}`;

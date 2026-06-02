@@ -51,6 +51,9 @@ export const darkTheme: ThemeTokens = {
     headingTransform: 'none',
     headingLetterSpacing: '-0.01em',
     metadataTransform: 'uppercase',
+    headingScale: 1.25,
+    paragraphSpacing: '1.5em',
+    headingLineHeight: 1.15,
   },
 
   spacing: {
@@ -79,6 +82,9 @@ export const darkTheme: ThemeTokens = {
     borderStyle: 'hairline',
     innerGlow: true,
     surfaceTexture: 'clean',
+    surfaceMode: 'bordered',
+    scanlineEffect: false,
+    paperTexture: false,
   },
 
   chartStyle: {
@@ -100,6 +106,9 @@ export const darkTheme: ThemeTokens = {
     dotStyle: 'circle',
     areaOpacity: 0.25,
     animationDuration: 1000,
+    glowIntensity: 0,
+    axisDensity: 'standard',
+    labelStyle: 'minimal',
   },
 
   motion: {
@@ -111,6 +120,7 @@ export const darkTheme: ThemeTokens = {
     staggerDelay: 80,
     springStiffness: 180,
     springDamping: 24,
+    motionPreset: 'spring',
   },
 
   meta: {
@@ -171,6 +181,9 @@ export const lightTheme: ThemeTokens = {
     headingTransform: 'none',
     headingLetterSpacing: '-0.01em',
     metadataTransform: 'uppercase',
+    headingScale: 1.25,
+    paragraphSpacing: '1.75em',
+    headingLineHeight: 1.2,
   },
 
   spacing: {
@@ -199,6 +212,9 @@ export const lightTheme: ThemeTokens = {
     borderStyle: 'hairline',
     innerGlow: true,
     surfaceTexture: 'clean',
+    surfaceMode: 'bordered',
+    scanlineEffect: false,
+    paperTexture: false,
   },
 
   chartStyle: {
@@ -220,6 +236,9 @@ export const lightTheme: ThemeTokens = {
     dotStyle: 'circle',
     areaOpacity: 0.12,
     animationDuration: 1000,
+    glowIntensity: 0,
+    axisDensity: 'standard',
+    labelStyle: 'minimal',
   },
 
   motion: {
@@ -231,6 +250,7 @@ export const lightTheme: ThemeTokens = {
     staggerDelay: 80,
     springStiffness: 180,
     springDamping: 24,
+    motionPreset: 'spring',
   },
 
   meta: {

@@ -121,6 +121,19 @@ function validateTypography(typography: unknown, warnings: string[]): void {
   if (t.metadataTransform !== undefined && !isOneOf(t.metadataTransform, ['none', 'uppercase'] as const)) {
     warnings.push('[typography.metadataTransform] Must be "none" or "uppercase"');
   }
+  if (t.headingScale !== undefined) {
+    if (typeof t.headingScale !== 'number' || t.headingScale < 1.0 || t.headingScale > 2.0) {
+      warnings.push('[typography.headingScale] Must be a number between 1.0 and 2.0');
+    }
+  }
+  if (t.paragraphSpacing !== undefined && !isNonEmptyString(t.paragraphSpacing)) {
+    warnings.push('[typography.paragraphSpacing] Must be a non-empty string');
+  }
+  if (t.headingLineHeight !== undefined) {
+    if (typeof t.headingLineHeight !== 'number' || t.headingLineHeight < 0.8 || t.headingLineHeight > 2.0) {
+      warnings.push('[typography.headingLineHeight] Must be a number between 0.8 and 2.0');
+    }
+  }
 }
 
 function validateSpacing(spacing: unknown, warnings: string[]): void {
@@ -198,6 +211,15 @@ function validateCardStyle(cardStyle: unknown, warnings: string[]): void {
   if (cs.surfaceTexture !== undefined && !isOneOf(cs.surfaceTexture, ['clean', 'noise', 'grain'] as const)) {
     warnings.push('[cardStyle.surfaceTexture] Must be "clean", "noise", or "grain"');
   }
+  if (cs.surfaceMode !== undefined && !isOneOf(cs.surfaceMode, ['elevated', 'glass', 'bordered', 'invisible', 'terminal', 'editorial'] as const)) {
+    warnings.push('[cardStyle.surfaceMode] Must be "elevated", "glass", "bordered", "invisible", "terminal", or "editorial"');
+  }
+  if (cs.scanlineEffect !== undefined && !isBoolean(cs.scanlineEffect)) {
+    warnings.push('[cardStyle.scanlineEffect] Must be a boolean');
+  }
+  if (cs.paperTexture !== undefined && !isBoolean(cs.paperTexture)) {
+    warnings.push('[cardStyle.paperTexture] Must be a boolean');
+  }
 }
 
 function validateChartStyle(chartStyle: unknown, warnings: string[]): void {
@@ -254,6 +276,15 @@ function validateChartStyle(chartStyle: unknown, warnings: string[]): void {
   if (cs.animationDuration !== undefined && !isNonNegativeNumber(cs.animationDuration)) {
     warnings.push('[chartStyle.animationDuration] Must be a non-negative number');
   }
+  if (cs.glowIntensity !== undefined && (typeof cs.glowIntensity !== 'number' || cs.glowIntensity < 0 || cs.glowIntensity > 1)) {
+    warnings.push('[chartStyle.glowIntensity] Must be a number between 0 and 1');
+  }
+  if (cs.axisDensity !== undefined && !isOneOf(cs.axisDensity, ['minimal', 'standard', 'dense'] as const)) {
+    warnings.push('[chartStyle.axisDensity] Must be "minimal", "standard", or "dense"');
+  }
+  if (cs.labelStyle !== undefined && !isOneOf(cs.labelStyle, ['hidden', 'minimal', 'verbose'] as const)) {
+    warnings.push('[chartStyle.labelStyle] Must be "hidden", "minimal", or "verbose"');
+  }
 }
 
 function validateMotion(motion: unknown, warnings: string[]): void {
@@ -289,6 +320,9 @@ function validateMotion(motion: unknown, warnings: string[]): void {
   }
   if (m.springDamping !== undefined && !isPositiveNumber(m.springDamping)) {
     warnings.push('[motion.springDamping] Must be a positive number');
+  }
+  if (m.motionPreset !== undefined && !isOneOf(m.motionPreset, ['spring', 'editorial-fade', 'terminal-scan', 'keynote-zoom', 'none'] as const)) {
+    warnings.push('[motion.motionPreset] Must be "spring", "editorial-fade", "terminal-scan", "keynote-zoom", or "none"');
   }
 }
 

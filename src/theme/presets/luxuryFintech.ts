@@ -42,6 +42,9 @@ export const luxuryFintech: PartialThemeTokens = {
     headingTransform: 'none',
     headingLetterSpacing: '-0.015em',
     metadataTransform: 'uppercase',
+    headingScale: 1.618,
+    paragraphSpacing: '2.5em',
+    headingLineHeight: 1.1,
   },
 
   spacing: {
@@ -70,6 +73,9 @@ export const luxuryFintech: PartialThemeTokens = {
     borderStyle: 'hairline',
     innerGlow: true,
     surfaceTexture: 'clean',
+    surfaceMode: 'glass',
+    scanlineEffect: false,
+    paperTexture: false,
   },
 
   chartStyle: {
@@ -87,6 +93,9 @@ export const luxuryFintech: PartialThemeTokens = {
     dotStyle: 'circle',
     areaOpacity: 0.18,
     animationDuration: 1500,
+    glowIntensity: 0.3,
+    axisDensity: 'minimal',
+    labelStyle: 'minimal',
   },
 
   motion: {
@@ -98,6 +107,7 @@ export const luxuryFintech: PartialThemeTokens = {
     staggerDelay: 120,
     springStiffness: 120,
     springDamping: 28,
+    motionPreset: 'keynote-zoom',
   },
 
   meta: {

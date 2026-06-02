@@ -5,7 +5,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 import type { Variants, Transition } from 'framer-motion';
-import type { ThemeMotion } from '../../theme/themeTypes';
+import type { ThemeMotion, MotionPreset } from '../../theme/themeTypes';
 
 // ─── Dynamic Factories ───────────────────────────────────────────────────────
 
@@ -99,6 +99,84 @@ export function buildStaggerContainer(motion: ThemeMotion): Variants {
       },
     },
   };
+}
+
+// ─── Motion Preset Factory ───────────────────────────────────────────────
+// High-level factory that produces complete Framer Motion variant sets
+// based on the motionPreset string. Each preset is a radically different
+// animation strategy.
+
+/**
+ * Build motion variants from a high-level motion preset.
+ * This replaces individual DNA tweaking with cohesive animation strategies.
+ */
+export function buildMotionFromPreset(
+  preset: MotionPreset,
+  motion: ThemeMotion,
+  tier: 'hero' | 'primary' | 'supporting' | 'secondary' = 'primary'
+): Variants {
+  switch (preset) {
+    // ── Spring: bouncy, fast, playful ─────────────────────────────────────
+    case 'spring':
+      return buildCardVariants(motion, tier);
+
+    // ── Editorial Fade: slow, elegant, pure opacity ──────────────────────
+    case 'editorial-fade': {
+      const duration = tier === 'hero' ? 0.8 : tier === 'primary' ? 0.6 : 0.5;
+      return {
+        initial: { opacity: 0 },
+        animate: {
+          opacity: 1,
+          transition: {
+            duration,
+            ease: [0.4, 0, 0.2, 1],
+          },
+        },
+      };
+    }
+
+    // ── Terminal Scan: horizontal wipe-in, fast, uniform ─────────────────
+    case 'terminal-scan':
+      return {
+        initial: { opacity: 0, x: -20, scaleX: 0.98 },
+        animate: {
+          opacity: 1,
+          x: 0,
+          scaleX: 1,
+          transition: {
+            duration: 0.15,
+            ease: 'linear',
+          },
+        },
+      };
+
+    // ── Keynote Zoom: Apple-style slow zoom, premium feel ────────────────
+    case 'keynote-zoom': {
+      const scale = tier === 'hero' ? 0.92 : tier === 'primary' ? 0.94 : 0.96;
+      const dur = tier === 'hero' ? 1.2 : tier === 'primary' ? 0.9 : 0.7;
+      return {
+        initial: { opacity: 0, scale },
+        animate: {
+          opacity: 1,
+          scale: 1,
+          transition: {
+            duration: dur,
+            ease: [0.25, 0.1, 0.25, 1],
+          },
+        },
+      };
+    }
+
+    // ── None: instant appearance ─────────────────────────────────────────
+    case 'none':
+      return {
+        initial: {},
+        animate: {},
+      };
+
+    default:
+      return buildCardVariants(motion, tier);
+  }
 }
 
 // ─── Static Fallback Exports (Backward Compat) ──────────────────────────────

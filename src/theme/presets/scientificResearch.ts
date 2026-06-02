@@ -42,6 +42,9 @@ export const scientificResearch: PartialThemeTokens = {
     headingTransform: 'none',
     headingLetterSpacing: '-0.005em',
     metadataTransform: 'uppercase',
+    headingScale: 1.2,
+    paragraphSpacing: '1.5em',
+    headingLineHeight: 1.25,
   },
 
   spacing: {
@@ -70,6 +73,9 @@ export const scientificResearch: PartialThemeTokens = {
     borderStyle: 'solid',
     innerGlow: false,
     surfaceTexture: 'clean',
+    surfaceMode: 'bordered',
+    scanlineEffect: false,
+    paperTexture: false,
   },
 
   chartStyle: {
@@ -87,6 +93,9 @@ export const scientificResearch: PartialThemeTokens = {
     dotStyle: 'circle',
     areaOpacity: 0.08,
     animationDuration: 600,
+    glowIntensity: 0,
+    axisDensity: 'dense',
+    labelStyle: 'verbose',
   },
 
   motion: {
@@ -98,6 +107,7 @@ export const scientificResearch: PartialThemeTokens = {
     staggerDelay: 50,
     springStiffness: 220,
     springDamping: 28,
+    motionPreset: 'editorial-fade',
   },
 
   meta: {

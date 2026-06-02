@@ -40,14 +40,23 @@ export default function LineChartCard({ config, hero = false }: Props) {
   const animationDuration = theme.chartStyle.animationDuration ?? 1200;
   const lineThickness = theme.chartStyle.lineThickness ?? 3;
 
+  // Theme Morphing extensions
+  const glowIntensity = theme.chartStyle.glowIntensity ?? 0;
+  const axisDensity = theme.chartStyle.axisDensity ?? 'standard';
+  const labelStyle = theme.chartStyle.labelStyle ?? 'minimal';
+
   const gridStrokeDash = gridlineStyle === 'dashed' ? '5 5' : gridlineStyle === 'dotted' ? '2 4' : undefined;
+
+  // Axis tick interval based on axisDensity
+  const tickInterval = axisDensity === 'minimal' ? Math.max(1, Math.floor(chartData.length / 3))
+    : axisDensity === 'dense' ? 0
+    : undefined;
 
   // Dot shape based on DNA
   const getDotProps = (isActive: boolean) => {
     if (dotStyle === 'none') return false;
     const baseRadius = isActive ? 7 : 4;
     if (dotStyle === 'square') {
-      // Recharts doesn't natively support square dots, so we use larger radius with sharp edges
       return { fill: isActive ? accent : theme.colors.surface, stroke: accent, strokeWidth: 2, r: baseRadius };
     }
     if (dotStyle === 'diamond') {
@@ -73,6 +82,10 @@ export default function LineChartCard({ config, hero = false }: Props) {
     );
   };
 
+  // Glow slope scales with glowIntensity
+  const glowSlope = 1.2 + (glowIntensity * 1.5);
+  const glowStdDev = 4 + (glowIntensity * 4);
+
   return (
     <div style={{ height, width: '100%' }}>
       <ResponsiveContainer width="100%" height="100%">
@@ -81,12 +94,12 @@ export default function LineChartCard({ config, hero = false }: Props) {
           margin={{ top: 15, right: 15, left: -20, bottom: 5 }}
         >
           <defs>
-            {/* Volumetric Glow Filter — suppressed for flat/minimal themes */}
-            {!isLight && theme.cardStyle.elevationModel !== 'flat' && (
+            {/* Volumetric Glow Filter — intensity controlled by glowIntensity */}
+            {!isLight && (glowIntensity > 0 || theme.cardStyle.elevationModel !== 'flat') && (
               <filter id={glowId} x="-20%" y="-20%" width="140%" height="140%">
-                <feGaussianBlur stdDeviation="6" result="blur" />
+                <feGaussianBlur stdDeviation={glowStdDev} result="blur" />
                 <feComponentTransfer in="blur" result="boost">
-                  <feFuncA type="linear" slope="1.8"/>
+                  <feFuncA type="linear" slope={glowSlope}/>
                 </feComponentTransfer>
                 <feMerge>
                   <feMergeNode in="boost" />
@@ -104,7 +117,7 @@ export default function LineChartCard({ config, hero = false }: Props) {
 
           {gridlineStyle !== 'none' && (
             <CartesianGrid 
-              vertical={false} 
+              vertical={axisDensity === 'dense'} 
               stroke={theme.colors.grid} 
               strokeDasharray={gridStrokeDash}
               strokeOpacity={theme.chartStyle.gridOpacity} 
@@ -114,8 +127,10 @@ export default function LineChartCard({ config, hero = false }: Props) {
           <XAxis
             dataKey="label"
             axisLine={axisVisible ? { stroke: theme.colors.grid } : false}
-            tickLine={false}
+            tickLine={axisVisible && axisDensity === 'dense'}
             dy={10}
+            interval={tickInterval}
+            hide={labelStyle === 'hidden'}
             tick={{
               fill: theme.colors.textSecondary,
               fontSize: 10,
@@ -126,9 +141,10 @@ export default function LineChartCard({ config, hero = false }: Props) {
 
           <YAxis
             axisLine={axisVisible ? { stroke: theme.colors.grid } : false}
-            tickLine={false}
+            tickLine={axisVisible && axisDensity === 'dense'}
             tickFormatter={formatNumber}
             dx={-8}
+            hide={labelStyle === 'hidden'}
             tick={{
               fill: theme.colors.textSecondary,
               fontSize: 10,
@@ -142,14 +158,14 @@ export default function LineChartCard({ config, hero = false }: Props) {
             content={(props) => renderTooltipContent(props as unknown as { active?: boolean; payload?: TooltipPayload[] })}
           />
 
-          {/* Background Volumetric Glow Trail — suppressed in Light mode and flat themes */}
-          {!isLight && theme.cardStyle.elevationModel !== 'flat' && (
+          {/* Background Volumetric Glow Trail — intensity scales with glowIntensity */}
+          {!isLight && (glowIntensity > 0 || theme.cardStyle.elevationModel !== 'flat') && (
             <Area
               type="monotone"
               dataKey="value"
               stroke={accent}
               strokeWidth={lineThickness + 4}
-              strokeOpacity={0.4}
+              strokeOpacity={0.3 + glowIntensity * 0.4}
               fill="none"
               filter={`url(#${glowId})`}
               activeDot={false}

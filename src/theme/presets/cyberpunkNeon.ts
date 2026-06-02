@@ -42,6 +42,9 @@ export const cyberpunkNeon: PartialThemeTokens = {
     headingTransform: 'uppercase',
     headingLetterSpacing: '0.06em',
     metadataTransform: 'uppercase',
+    headingScale: 1.2,
+    paragraphSpacing: '1em',
+    headingLineHeight: 1.15,
   },
 
   spacing: {
@@ -70,6 +73,9 @@ export const cyberpunkNeon: PartialThemeTokens = {
     borderStyle: 'hairline',
     innerGlow: true,
     surfaceTexture: 'noise',
+    surfaceMode: 'glass',
+    scanlineEffect: true,
+    paperTexture: false,
   },
 
   chartStyle: {
@@ -87,6 +93,9 @@ export const cyberpunkNeon: PartialThemeTokens = {
     dotStyle: 'diamond',
     areaOpacity: 0.3,
     animationDuration: 800,
+    glowIntensity: 0.9,
+    axisDensity: 'minimal',
+    labelStyle: 'minimal',
   },
 
   motion: {
@@ -98,6 +107,7 @@ export const cyberpunkNeon: PartialThemeTokens = {
     staggerDelay: 60,
     springStiffness: 260,
     springDamping: 20,
+    motionPreset: 'spring',
   },
 
   meta: {

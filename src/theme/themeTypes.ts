@@ -97,6 +97,15 @@ export interface ThemeTypography {
   headingLetterSpacing: string;
   /** Text transform for metadata / micro labels */
   metadataTransform: 'none' | 'uppercase';
+
+  // ── Theme Morphing extensions ────────────────────────────────────────────
+
+  /** Modular scale ratio for heading hierarchy (1.2 = minor third, 1.333 = perfect fourth, 1.618 = golden) */
+  headingScale: number;
+  /** Vertical spacing between paragraphs / content blocks (e.g. '1.5em', '2rem') */
+  paragraphSpacing: string;
+  /** Line height for headings (tighter than body) */
+  headingLineHeight: number;
 }
 
 // ─── Spacing Tokens ──────────────────────────────────────────────────────────
@@ -135,6 +144,7 @@ export interface ThemeLayoutDNA {
 export type ElevationModel = 'flat' | 'subtle' | 'layered' | 'deep';
 export type BorderStyle = 'none' | 'hairline' | 'solid' | 'heavy';
 export type SurfaceTexture = 'clean' | 'noise' | 'grain';
+export type SurfaceMode = 'elevated' | 'glass' | 'bordered' | 'invisible' | 'terminal' | 'editorial';
 
 export interface ThemeCardStyle {
   /** Border radius (e.g. '1rem', '16px', '0px', '999px') */
@@ -160,6 +170,15 @@ export interface ThemeCardStyle {
   innerGlow: boolean;
   /** Surface texture overlay */
   surfaceTexture: SurfaceTexture;
+
+  // ── Theme Morphing extensions ──────────────────────────────────────────────
+
+  /** Primary surface rendering mode — controls entire card visual structure */
+  surfaceMode: SurfaceMode;
+  /** CRT/terminal scanline overlay effect */
+  scanlineEffect: boolean;
+  /** Paper-like warm texture for editorial themes */
+  paperTexture: boolean;
 }
 
 // ─── Chart DNA ───────────────────────────────────────────────────────────────
@@ -168,6 +187,8 @@ export type GridlineStyle = 'none' | 'dashed' | 'solid' | 'dotted';
 export type TooltipStyle = 'glass' | 'solid' | 'minimal' | 'bordered';
 export type LegendPlacement = 'bottom' | 'right' | 'inline' | 'none';
 export type DotStyle = 'none' | 'circle' | 'square' | 'diamond';
+export type AxisDensity = 'minimal' | 'standard' | 'dense';
+export type ChartLabelStyle = 'hidden' | 'minimal' | 'verbose';
 
 export interface ThemeChartStyle {
   /** Opacity for chart grid lines (0–1) */
@@ -209,12 +230,22 @@ export interface ThemeChartStyle {
   areaOpacity: number;
   /** Chart entry animation duration in ms */
   animationDuration: number;
+
+  // ── Theme Morphing extensions ──────────────────────────────────────────────
+
+  /** Neon/glow intensity on chart strokes and elements (0 = none, 1 = full neon) */
+  glowIntensity: number;
+  /** How many axis ticks and labels to show */
+  axisDensity: AxisDensity;
+  /** How verbose chart text labels are */
+  labelStyle: ChartLabelStyle;
 }
 
 // ─── Motion DNA ──────────────────────────────────────────────────────────────
 
 export type HoverBehavior = 'none' | 'lift' | 'glow' | 'tilt' | 'scale';
 export type SectionEntrance = 'none' | 'fade' | 'slide' | 'scale' | 'stagger';
+export type MotionPreset = 'spring' | 'editorial-fade' | 'terminal-scan' | 'keynote-zoom' | 'none';
 
 export interface ThemeMotion {
   /** CSS transition duration (e.g. '300ms', '0.3s') */
@@ -236,6 +267,11 @@ export interface ThemeMotion {
   springStiffness: number;
   /** Framer Motion spring damping */
   springDamping: number;
+
+  // ── Theme Morphing extensions ──────────────────────────────────────────────
+
+  /** High-level motion personality preset — overrides individual motion params for coherent animation strategy */
+  motionPreset: MotionPreset;
 }
 
 // ─── Meta Tokens ─────────────────────────────────────────────────────────────

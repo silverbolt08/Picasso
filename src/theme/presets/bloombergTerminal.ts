@@ -42,6 +42,9 @@ export const bloombergTerminal: PartialThemeTokens = {
     headingTransform: 'uppercase',
     headingLetterSpacing: '0.08em',
     metadataTransform: 'uppercase',
+    headingScale: 1.125,
+    paragraphSpacing: '0.75em',
+    headingLineHeight: 1.2,
   },
 
   spacing: {
@@ -70,6 +73,9 @@ export const bloombergTerminal: PartialThemeTokens = {
     borderStyle: 'solid',
     innerGlow: false,
     surfaceTexture: 'clean',
+    surfaceMode: 'terminal',
+    scanlineEffect: true,
+    paperTexture: false,
   },
 
   chartStyle: {
@@ -87,6 +93,9 @@ export const bloombergTerminal: PartialThemeTokens = {
     dotStyle: 'square',
     areaOpacity: 0.05,
     animationDuration: 0,
+    glowIntensity: 0,
+    axisDensity: 'dense',
+    labelStyle: 'verbose',
   },
 
   motion: {
@@ -98,6 +107,7 @@ export const bloombergTerminal: PartialThemeTokens = {
     staggerDelay: 0,
     springStiffness: 300,
     springDamping: 30,
+    motionPreset: 'none',
   },
 
   meta: {

@@ -114,6 +114,8 @@ export interface TypeScaleEntry {
 export function buildTypeScale(theme: ThemeTokens): Record<TypeScaleKey, TypeScaleEntry> {
   const t = theme.typography;
   const scale = t.fontScale ?? 1;
+  const headingRatio = t.headingScale ?? 1.25;
+  const hLineHeight = t.headingLineHeight ?? 1.15;
 
   // Apply font scale to base sizes
   const scaleSize = (base: string): string => {
@@ -128,6 +130,13 @@ export function buildTypeScale(theme: ThemeTokens): Record<TypeScaleKey, TypeSca
     return base;
   };
 
+  // Modular scale: compute heading sizes from body base using headingScale ratio
+  const bodyBase = parseFloat(t.bodySize ?? '0.875') || 0.875;
+  const modularSize = (power: number): string => {
+    const val = bodyBase * Math.pow(headingRatio, power) * scale;
+    return `${val.toFixed(4)}rem`;
+  };
+
   const headingTransform = t.headingTransform ?? 'none';
   const metadataTransform = t.metadataTransform ?? 'uppercase';
 
@@ -136,31 +145,31 @@ export function buildTypeScale(theme: ThemeTokens): Record<TypeScaleKey, TypeSca
       fontFamily: t.displayFont ?? t.headingFont,
       fontSize: scaleSize('clamp(2.5rem, 6vw, 4.5rem)'),
       fontWeight: t.fontWeightHeading + 200,
-      lineHeight: 1.05,
+      lineHeight: Math.max(1.0, hLineHeight - 0.1),
       letterSpacing: t.headingLetterSpacing ?? '-0.04em',
       textTransform: headingTransform,
     },
     hero: {
       fontFamily: t.headingFont,
-      fontSize: scaleSize('clamp(1.75rem, 4vw, 2.75rem)'),
+      fontSize: modularSize(4),
       fontWeight: t.fontWeightHeading + 100,
-      lineHeight: 1.1,
+      lineHeight: hLineHeight,
       letterSpacing: t.headingLetterSpacing ?? '-0.02em',
       textTransform: headingTransform,
     },
     heading: {
       fontFamily: t.headingFont,
-      fontSize: scaleSize(t.titleSize ?? '1.25rem'),
+      fontSize: modularSize(3),
       fontWeight: t.fontWeightHeading,
-      lineHeight: 1.2,
+      lineHeight: hLineHeight,
       letterSpacing: t.headingLetterSpacing ?? '-0.01em',
       textTransform: headingTransform,
     },
     subheading: {
       fontFamily: t.headingFont,
-      fontSize: scaleSize(t.titleSize ?? '1.125rem'),
+      fontSize: modularSize(2),
       fontWeight: Math.max(400, t.fontWeightHeading - 100),
-      lineHeight: 1.25,
+      lineHeight: hLineHeight + 0.1,
       letterSpacing: t.headingLetterSpacing ?? '-0.01em',
     },
     body: {

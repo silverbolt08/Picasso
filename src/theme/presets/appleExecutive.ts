@@ -42,6 +42,9 @@ export const appleExecutive: PartialThemeTokens = {
     headingTransform: 'none',
     headingLetterSpacing: '-0.022em',
     metadataTransform: 'uppercase',
+    headingScale: 1.333,
+    paragraphSpacing: '2em',
+    headingLineHeight: 1.1,
   },
 
   spacing: {
@@ -70,6 +73,9 @@ export const appleExecutive: PartialThemeTokens = {
     borderStyle: 'none',
     innerGlow: false,
     surfaceTexture: 'clean',
+    surfaceMode: 'elevated',
+    scanlineEffect: false,
+    paperTexture: false,
   },
 
   chartStyle: {
@@ -87,6 +93,9 @@ export const appleExecutive: PartialThemeTokens = {
     dotStyle: 'circle',
     areaOpacity: 0.15,
     animationDuration: 1200,
+    glowIntensity: 0,
+    axisDensity: 'minimal',
+    labelStyle: 'minimal',
   },
 
   motion: {
@@ -98,6 +107,7 @@ export const appleExecutive: PartialThemeTokens = {
     staggerDelay: 100,
     springStiffness: 140,
     springDamping: 26,
+    motionPreset: 'keynote-zoom',
   },
 
   meta: {

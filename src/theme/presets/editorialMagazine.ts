@@ -42,6 +42,9 @@ export const editorialMagazine: PartialThemeTokens = {
     headingTransform: 'none',
     headingLetterSpacing: '-0.02em',
     metadataTransform: 'uppercase',
+    headingScale: 1.414,
+    paragraphSpacing: '2em',
+    headingLineHeight: 1.15,
   },
 
   spacing: {
@@ -70,6 +73,9 @@ export const editorialMagazine: PartialThemeTokens = {
     borderStyle: 'hairline',
     innerGlow: false,
     surfaceTexture: 'clean',
+    surfaceMode: 'editorial',
+    scanlineEffect: false,
+    paperTexture: true,
   },
 
   chartStyle: {
@@ -87,6 +93,9 @@ export const editorialMagazine: PartialThemeTokens = {
     dotStyle: 'circle',
     areaOpacity: 0.1,
     animationDuration: 1000,
+    glowIntensity: 0,
+    axisDensity: 'standard',
+    labelStyle: 'verbose',
   },
 
   motion: {
@@ -98,6 +107,7 @@ export const editorialMagazine: PartialThemeTokens = {
     staggerDelay: 90,
     springStiffness: 160,
     springDamping: 26,
+    motionPreset: 'editorial-fade',
   },
 
   meta: {

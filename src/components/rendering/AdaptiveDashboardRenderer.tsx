@@ -6,23 +6,45 @@ import AdaptiveCardShell from './AdaptiveCardShell';
 import { getThemeTextStyle } from '../../design-system/typography/typeScale';
 import {
   buildReflowSpring,
-  buildCardVariants,
   buildStaggerContainer,
+  buildMotionFromPreset,
 } from '../../design-system/motion/presets';
+import type { SurfaceMode, MotionPreset } from '../../theme/themeTypes';
 
-// ─── Promoted Hero variant — built dynamically ──────────────────────────────
+// ─── Promoted Hero variant — built dynamically ──────────────────────────
 
-function buildPromotedHeroVariants(stiffness: number, damping: number): Variants {
+function buildPromotedHeroVariants(preset: MotionPreset, motion: any): Variants {
+  if (preset === 'none') return { initial: {}, animate: {} };
+  if (preset === 'keynote-zoom') {
+    return {
+      initial: { opacity: 0, scale: 0.9 },
+      animate: {
+        opacity: 1, scale: 1,
+        transition: { duration: 1.4, ease: [0.25, 0.1, 0.25, 1] },
+      },
+    };
+  }
+  if (preset === 'editorial-fade') {
+    return {
+      initial: { opacity: 0 },
+      animate: { opacity: 1, transition: { duration: 0.9, ease: [0.4, 0, 0.2, 1] } },
+    };
+  }
+  if (preset === 'terminal-scan') {
+    return {
+      initial: { opacity: 0, x: -30 },
+      animate: { opacity: 1, x: 0, transition: { duration: 0.2, ease: 'linear' } },
+    };
+  }
+  // Default: spring
   return {
     initial: { opacity: 0, scale: 0.97, y: 40 },
     animate: {
-      opacity: 1,
-      scale: 1,
-      y: 0,
+      opacity: 1, scale: 1, y: 0,
       transition: {
         type: 'spring',
-        stiffness: Math.max(100, stiffness - 40),
-        damping: Math.max(16, damping - 4),
+        stiffness: Math.max(100, (motion.springStiffness ?? 180) - 40),
+        damping: Math.max(16, (motion.springDamping ?? 24) - 4),
         mass: 1.1,
       },
     },
@@ -59,24 +81,113 @@ function getRowGroup(rowType: string): string {
   return 'Supporting Telemetry';
 }
 
+// ─── Section Header Renderer ─────────────────────────────────────────────
+// Morphs section headers based on surfaceMode.
+
+function SectionHeader({ title, surfaceMode, theme }: { title: string; surfaceMode: SurfaceMode; theme: any }) {
+  const baseStyle = getThemeTextStyle(theme, 'micro');
+
+  if (surfaceMode === 'terminal') {
+    return (
+      <h3
+        className="mb-2"
+        style={{
+          fontFamily: theme.typography.monoFont,
+          fontSize: '10px',
+          fontWeight: 700,
+          letterSpacing: '0.08em',
+          textTransform: 'uppercase',
+          color: theme.colors.accentPrimary,
+          opacity: 0.7,
+        }}
+      >
+        {'>'} {title.toUpperCase().replace(/ /g, '_')}
+        <span
+          className="inline-block ml-1"
+          style={{
+            width: '6px',
+            height: '10px',
+            backgroundColor: theme.colors.accentPrimary,
+            opacity: 0.6,
+            animation: 'blink 1s step-end infinite',
+          }}
+        />
+      </h3>
+    );
+  }
+
+  if (surfaceMode === 'editorial') {
+    return (
+      <div className="mb-3 flex items-center gap-3">
+        <div
+          style={{
+            width: '24px',
+            height: '1px',
+            backgroundColor: theme.colors.accentPrimary,
+            opacity: 0.4,
+          }}
+        />
+        <h3
+          style={{
+            fontFamily: theme.typography.headingFont,
+            fontSize: '11px',
+            fontWeight: 500,
+            letterSpacing: '0.15em',
+            textTransform: 'uppercase',
+            color: theme.colors.textSecondary,
+            opacity: 0.6,
+          }}
+        >
+          {title}
+        </h3>
+      </div>
+    );
+  }
+
+  if (surfaceMode === 'elevated') {
+    return (
+      <h3
+        className="mb-2"
+        style={{
+          ...baseStyle,
+          fontSize: '10px',
+          opacity: 0.3,
+          color: theme.colors.textMuted,
+        }}
+      >
+        {title}
+      </h3>
+    );
+  }
+
+  // Default
+  return (
+    <h3
+      className="opacity-40 mb-1"
+      style={{
+        ...baseStyle,
+        fontSize: '10px',
+      }}
+    >
+      {title}
+    </h3>
+  );
+}
+
 export default function AdaptiveDashboardRenderer({ plan, charts }: AdaptiveDashboardRendererProps) {
   const { theme } = useTheme();
+  const surfaceMode: SurfaceMode = theme.cardStyle.surfaceMode ?? 'bordered';
+  const motionPreset: MotionPreset = theme.motion.motionPreset ?? 'spring';
 
-  // Build motion variants from Theme DNA
+  // Build motion variants from Theme DNA + motion preset
   const motionDNA = theme.motion;
   const reflowSpring = buildReflowSpring(motionDNA);
-  const heroVariants = buildCardVariants(motionDNA, 'hero');
-  const primaryVariants = buildCardVariants(motionDNA, 'primary');
-  const supportingVariants = buildCardVariants(motionDNA, 'supporting');
-  const secondaryVariants = buildCardVariants(motionDNA, 'secondary');
-  const promotedVariants = buildPromotedHeroVariants(
-    motionDNA.springStiffness ?? 180,
-    motionDNA.springDamping ?? 24
-  );
+  const heroVariants = buildMotionFromPreset(motionPreset, motionDNA, 'hero');
+  const primaryVariants = buildMotionFromPreset(motionPreset, motionDNA, 'primary');
+  const supportingVariants = buildMotionFromPreset(motionPreset, motionDNA, 'supporting');
+  const secondaryVariants = buildMotionFromPreset(motionPreset, motionDNA, 'secondary');
+  const promotedVariants = buildPromotedHeroVariants(motionPreset, motionDNA);
   const staggerContainer = buildStaggerContainer(motionDNA);
-
-  // Section header typography from Theme DNA
-  const sectionHeaderStyle = getThemeTextStyle(theme, 'micro');
 
   if (charts.length === 0) {
     return (
@@ -105,7 +216,7 @@ export default function AdaptiveDashboardRenderer({ plan, charts }: AdaptiveDash
 
   const chartLookup = new Map(charts.map((chart) => [chart.id, chart]));
 
-  // ── Render Dynamic Row-Based Editorial Layout ─────────────────────────────
+  // ── Render Dynamic Row-Based Editorial Layout ─────────────────────────
   if (plan.rows && plan.rows.length > 0) {
     return (
       <div className="flex flex-col gap-10 w-full">
@@ -118,15 +229,7 @@ export default function AdaptiveDashboardRenderer({ plan, charts }: AdaptiveDash
           return (
             <div key={row.rowId} className="flex flex-col gap-4">
               {showHeader && (
-                <h3
-                  className="opacity-40 mb-1"
-                  style={{
-                    ...sectionHeaderStyle,
-                    fontSize: '10px',
-                  }}
-                >
-                  {rowGroup}
-                </h3>
+                <SectionHeader title={rowGroup} surfaceMode={surfaceMode} theme={theme} />
               )}
               <motion.div
                 className="grid grid-cols-1 md:grid-cols-12 w-full"
@@ -140,7 +243,7 @@ export default function AdaptiveDashboardRenderer({ plan, charts }: AdaptiveDash
                     const rawChart = chartLookup.get(c.chartId);
                     if (!rawChart) return null;
 
-                    // Choose animation variant from DNA
+                    // Choose animation variant from motion preset
                     let variants: Variants;
                     if (c.placement === 'hero' || c.placement === 'spotlight') {
                       variants = c.promotedHero ? promotedVariants : heroVariants;
@@ -180,7 +283,7 @@ export default function AdaptiveDashboardRenderer({ plan, charts }: AdaptiveDash
     );
   }
 
-  // ── Fallback: Legacy Section-based Rendering ──────────────────────────────
+  // ── Fallback: Legacy Section-based Rendering ──────────────────────────
   const trueHeroes = plan.charts.filter(c => c.placement === 'hero' && !c.promotedHero);
   const primaryCharts = plan.charts.filter(c => c.placement === 'primary');
   const promotedHeroes = plan.charts.filter(c => c.placement === 'hero' && c.promotedHero);
@@ -196,12 +299,7 @@ export default function AdaptiveDashboardRenderer({ plan, charts }: AdaptiveDash
 
     return (
       <div className="flex flex-col" style={{ gap: theme.spacing.sectionGap }}>
-        <h3
-          className="opacity-40 mb-2"
-          style={sectionHeaderStyle}
-        >
-          {title}
-        </h3>
+        <SectionHeader title={title} surfaceMode={surfaceMode} theme={theme} />
         <motion.div
           className="grid grid-cols-1 md:grid-cols-12 w-full"
           style={{ gap: theme.spacing.gridGap }}

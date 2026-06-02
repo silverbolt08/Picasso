@@ -42,6 +42,9 @@ export const militaryCommand: PartialThemeTokens = {
     headingTransform: 'uppercase',
     headingLetterSpacing: '0.1em',
     metadataTransform: 'uppercase',
+    headingScale: 1.125,
+    paragraphSpacing: '0.75em',
+    headingLineHeight: 1.25,
   },
 
   spacing: {
@@ -70,6 +73,9 @@ export const militaryCommand: PartialThemeTokens = {
     borderStyle: 'heavy',
     innerGlow: false,
     surfaceTexture: 'noise',
+    surfaceMode: 'terminal',
+    scanlineEffect: true,
+    paperTexture: false,
   },
 
   chartStyle: {
@@ -87,6 +93,9 @@ export const militaryCommand: PartialThemeTokens = {
     dotStyle: 'square',
     areaOpacity: 0.08,
     animationDuration: 200,
+    glowIntensity: 0.2,
+    axisDensity: 'dense',
+    labelStyle: 'verbose',
   },
 
   motion: {
@@ -98,6 +107,7 @@ export const militaryCommand: PartialThemeTokens = {
     staggerDelay: 30,
     springStiffness: 300,
     springDamping: 30,
+    motionPreset: 'terminal-scan',
   },
 
   meta: {
