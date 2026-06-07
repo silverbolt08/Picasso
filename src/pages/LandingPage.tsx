@@ -213,7 +213,7 @@ const JSON_EXAMPLES = [
   }
 ]`
   }
-];`
+];
 
 const INTENT_EXAMPLES = [
   'Focus on revenue growth',
