@@ -15,6 +15,206 @@ const JSON_PLACEHOLDER = `[
   }
 ]`;
 
+const JSON_EXAMPLES = [
+  {
+    label: "Enterprise KPIs",
+    data: `[
+  {
+    "id": "global-revenue",
+    "type": "line",
+    "title": "Global Quarterly Revenue Acceleration",
+    "data": [
+      { "label": "Q1", "value": 4200 },
+      { "label": "Q2", "value": 5800 },
+      { "label": "Q3", "value": 7200 },
+      { "label": "Q4", "value": 9300 }
+    ]
+  },
+  {
+    "id": "enterprise-subscriptions",
+    "type": "line",
+    "title": "Enterprise Subscription Expansion",
+    "data": [
+      { "label": "Jan", "value": 160 },
+      { "label": "Feb", "value": 190 },
+      { "label": "Mar", "value": 230 },
+      { "label": "Apr", "value": 275 }
+    ]
+  },
+  {
+    "id": "conversion-funnel",
+    "type": "bar",
+    "title": "Executive Conversion Funnel Performance",
+    "data": [
+      { "label": "Visitors", "value": 12000 },
+      { "label": "Qualified Leads", "value": 3400 },
+      { "label": "Trials", "value": 1200 },
+      { "label": "Enterprise Deals", "value": 320 }
+    ]
+  },
+  {
+    "id": "regional-revenue",
+    "type": "bar",
+    "title": "Regional Enterprise Revenue Performance",
+    "data": [
+      { "label": "North America", "value": 82 },
+      { "label": "Europe", "value": 64 },
+      { "label": "Asia Pacific", "value": 76 },
+      { "label": "Middle East", "value": 31 }
+    ]
+  },
+  {
+    "id": "retention-index",
+    "type": "line",
+    "title": "Customer Retention Stability Index",
+    "data": [
+      { "label": "Week 1", "value": 94 },
+      { "label": "Week 2", "value": 94 },
+      { "label": "Week 3", "value": 93 },
+      { "label": "Week 4", "value": 95 }
+    ]
+  },
+  {
+    "id": "support-metrics",
+    "type": "pie",
+    "title": "Customer Support Resolution Metrics",
+    "data": [
+      { "label": "Resolved", "value": 82 },
+      { "label": "Pending", "value": 11 },
+      { "label": "Escalated", "value": 7 }
+    ]
+  },
+  {
+    "id": "traffic-sources",
+    "type": "pie",
+    "title": "Traffic Acquisition Intelligence",
+    "data": [
+      { "label": "Organic", "value": 42 },
+      { "label": "Paid Acquisition", "value": 31 },
+      { "label": "Referral", "value": 15 },
+      { "label": "Social Media", "value": 12 }
+    ]
+  },
+  {
+    "id": "department-efficiency",
+    "type": "line",
+    "title": "Operational Department Efficiency Metrics",
+    "data": [
+      { "label": "January", "value": 68 },
+      { "label": "February", "value": 73 },
+      { "label": "March", "value": 81 },
+      { "label": "April", "value": 89 }
+    ]
+  },
+  {
+    "id": "office-temperature",
+    "type": "line",
+    "title": "Office Temperature Sensor Readings",
+    "data": [
+      { "label": "Monday", "value": 22 },
+      { "label": "Tuesday", "value": 23 },
+      { "label": "Wednesday", "value": 21 },
+      { "label": "Thursday", "value": 24 }
+    ]
+  },
+  {
+    "id": "parking-utilization",
+    "type": "bar",
+    "title": "Parking Garage Utilization Statistics",
+    "data": [
+      { "label": "Zone A", "value": 62 },
+      { "label": "Zone B", "value": 48 },
+      { "label": "Zone C", "value": 71 }
+    ]
+  }
+]`
+  },
+  {
+    label: "Security SOC",
+    data: `[
+  {
+    "type": "line",
+    "title": "Threat Detection Volume",
+    "data": [
+      { "label": "00:00", "value": 120 },
+      { "label": "06:00", "value": 240 },
+      { "label": "12:00", "value": 410 },
+      { "label": "18:00", "value": 320 }
+    ]
+  },
+  {
+    "type": "bar",
+    "title": "Regional Attack Distribution",
+    "data": [
+      { "label": "North America", "value": 520 },
+      { "label": "Europe", "value": 340 },
+      { "label": "Asia", "value": 610 },
+      { "label": "Middle East", "value": 210 }
+    ]
+  },
+  {
+    "type": "pie",
+    "title": "Attack Vector Classification",
+    "data": [
+      { "label": "Phishing", "value": 38 },
+      { "label": "Malware", "value": 29 },
+      { "label": "DDoS", "value": 18 },
+      { "label": "Credential Theft", "value": 15 }
+    ]
+  },
+  {
+    "type": "line",
+    "title": "Firewall Stability Metrics",
+    "data": [
+      { "label": "Mon", "value": 72 },
+      { "label": "Tue", "value": 83 },
+      { "label": "Wed", "value": 91 },
+      { "label": "Thu", "value": 79 }
+    ]
+  },
+  {
+    "type": "bar",
+    "title": "Infrastructure Load Analysis",
+    "data": [
+      { "label": "API Gateway", "value": 81 },
+      { "label": "Auth Service", "value": 74 },
+      { "label": "Core Database", "value": 92 },
+      { "label": "Monitoring Cluster", "value": 68 }
+    ]
+  },
+  {
+    "type": "line",
+    "title": "SOC Response Time",
+    "data": [
+      { "label": "Week 1", "value": 14 },
+      { "label": "Week 2", "value": 11 },
+      { "label": "Week 3", "value": 9 },
+      { "label": "Week 4", "value": 7 }
+    ]
+  },
+  {
+    "type": "pie",
+    "title": "Authentication Failure Sources",
+    "data": [
+      { "label": "Bots", "value": 42 },
+      { "label": "Credential Stuffing", "value": 31 },
+      { "label": "Human Error", "value": 17 },
+      { "label": "Unknown", "value": 10 }
+    ]
+  },
+  {
+    "type": "bar",
+    "title": "Cafeteria Beverage Usage",
+    "data": [
+      { "label": "Coffee", "value": 62 },
+      { "label": "Tea", "value": 48 },
+      { "label": "Energy Drinks", "value": 33 }
+    ]
+  }
+]`
+  }
+];`
+
 const INTENT_EXAMPLES = [
   'Focus on revenue growth',
   'Analyze retention and churn',
@@ -146,6 +346,18 @@ export default function LandingPage() {
               spellCheck={false}
               id="json-input"
             />
+          </div>
+          <div className="br-pills" style={{ marginTop: '1rem' }}>
+            {JSON_EXAMPLES.map((example) => (
+              <button
+                key={example.label}
+                className="br-pill"
+                onClick={() => setRawJson(example.data)}
+                type="button"
+              >
+                {example.label}
+              </button>
+            ))}
           </div>
         </div>
 
