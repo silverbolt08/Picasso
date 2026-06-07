@@ -8,7 +8,7 @@ export default function App() {
   return (
     <ThemeProvider>
       <OrchestrationProvider>
-        <BrowserRouter>
+        <BrowserRouter basename={import.meta.env.BASE_URL}>
           <Routes>
             <Route path="/" element={<LandingPage />} />
             <Route path="/dashboard" element={<DashboardPage />} />
